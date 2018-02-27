@@ -6,7 +6,7 @@ var autoprefixer    = require('gulp-autoprefixer');
 var eslint          = require('gulp-eslint');
 //var jasmine		= require('gulp-jasmine-phantom');
 var concat			= require('gulp-concat');
-var uglify			= require('gulp-uglify');
+//var uglify			= require('gulp-uglify');  //currently a security issue
 var browserSync     = require('browser-sync').create();
 var babel			= require('gulp-babel');
 var sourcemaps		= require('gulp-sourcemaps');
@@ -79,7 +79,7 @@ gulp.task('js-dist', function() {
 	return gulp.src('js/*.js')
 		.pipe(babel())
 		.pipe(concat('all.js'))
-		.pipe(uglify())
+		//.pipe(uglify())
 		.pipe(gulp.dest('dist/js'));
 });
 

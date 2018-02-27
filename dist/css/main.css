@@ -96,7 +96,31 @@ img {
 .grid__cat-list {
         grid-column: 1;
         grid-row: 1/4;
+        -webkit-box-align: start;
+            -ms-flex-align: start;
+                align-items: start;
+        height: 100%;
+
     }
+.grid__cat-list ul {
+    padding: 0;
+}
+.grid__cat-list ul li {
+    list-style: none;
+    padding: 0.25em 0;
+    margin: 0 1em;
+
+}
+
+.grid__cat-list ul li:hover {
+    cursor: pointer;
+    background-color: #D8D8D8;
+}
+
+.grid__cat-list--active {
+    background-color: #D8D8D8;
+}
+
 
 .grid__cat-display {
         grid-column: 2/5;

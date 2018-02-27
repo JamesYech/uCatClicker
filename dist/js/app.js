@@ -6,159 +6,195 @@ var catNum=4;  //up to ten
 
 
 class Cat {
-    constructor(img, name, index) {
-        this.img=img;
-        this.name=name;
-        this.index=index;
-        this.clicks=0;
-        this.self=this;
+	constructor(img, name, index) {
+		this.img=img;
+		this.name=name;
+		this.index=index;
+		this.clicks=0;
+		//this.self=this;
 
-   	};
+	};
 
-   	buildFrame() {
-   		let frameWidth;
+	// buildFrame() {
+	// 	let frameWidth;
 
-   		switch(catNum) {
-   			case 1:
-   				frameWidth='img__width-100';
-   				break;
-   			case 2:
-   				frameWidth='img__width-50';
-   				break;
-   			case 3:
-   				frameWidth='img__width-33';
-   				break;
-   			case 4:
-   				frameWidth='img__width-25';
-   				break
-   			case 5:
-   				frameWidth='img__width-20';
-   				break;
-   		}
+	// 	switch(catNum) {
+	// 		case 1:
+	// 			frameWidth='img__width-100';
+	// 			break;
+	// 		case 2:
+	// 			frameWidth='img__width-50';
+	// 			break;
+	// 		case 3:
+	// 			frameWidth='img__width-33';
+	// 			break;
+	// 		case 4:
+	// 			frameWidth='img__width-25';
+	// 			break
+	// 		case 5:
+	// 			frameWidth='img__width-20';
+	// 			break;
+	// 	}
 
-   		let newFrame = document.createElement('div');
-   		newFrame.classList.add('catFrame');
-   		newFrame.classList.add(frameWidth);
-
-
-   		let newName = document.createElement('span');
-   		newName.classList.add('catName');
-   		newName.classList.add('row');
-   		newName.textContent=this.name;
-   		newFrame.appendChild(newName);
-
-   		let newImgDiv = document.createElement('div');
-   		newImgDiv.classList.add('catImg');
-   		newImgDiv.classList.add('row');
+	// 	let newFrame = document.createElement('div');
+	// 	newFrame.classList.add('catFrame');
+	// 	newFrame.classList.add(frameWidth);
 
 
-     	let newImg = document.createElement('img');
-     	newImg.setAttribute('src',this.img);
-     	newImg.setAttribute('alt',this.name);
-     	newImg.setAttribute('id','cat'+this.index);
+	// 	let newName = document.createElement('span');
+	// 	newName.classList.add('catName');
+	// 	newName.classList.add('row');
+	// 	newName.textContent=this.name;
+	// 	newFrame.appendChild(newName);
 
-     	newImgDiv.appendChild(newImg);
-        newFrame.appendChild(newImgDiv);
+	// 	let newImgDiv = document.createElement('div');
+	// 	newImgDiv.classList.add('catImg');
+	// 	newImgDiv.classList.add('row');
 
 
-        let newClicks = document.createElement('div');
-        newClicks.classList.add('catClicks');
-        newClicks.classList.add('row');
-        let newClicksP = document.createElement('p');
-        newClicksP.setAttribute('id','catCounts'+this.index);
-        newClicks.appendChild(newClicksP);
-        newFrame.appendChild(newClicks);
+	// 	let newImg = document.createElement('img');
+	// 	newImg.setAttribute('src',this.img);
+	// 	newImg.setAttribute('alt',this.name);
+	// 	newImg.setAttribute('id','cat'+this.index);
 
-        $('.main').append(newFrame);
-   	};
+	// 	newImgDiv.appendChild(newImg);
+	// 	newFrame.appendChild(newImgDiv);
 
-  	addListener(cat) {
-  		$('#cat'+cat.index).click(function() {
-  			cat.clicks++;
-  			$('#catCounts'+cat.index).html('This cat has been clicked '+cat.clicks+' times.');
-  		});
-  	};
 
-    addDisplayListener(cat) {
-      $('#catLink'+cat.index).click(function() {
-        //change cat display info (name, img, clicks)
-      });
-    };
+	// 	let newClicks = document.createElement('div');
+	// 	newClicks.classList.add('catClicks');
+	// 	newClicks.classList.add('row');
+	// 	let newClicksP = document.createElement('p');
+	// 	newClicksP.setAttribute('id','catCounts'+this.index);
+	// 	newClicks.appendChild(newClicksP);
+	// 	newFrame.appendChild(newClicks);
+
+	// 	$('.main').append(newFrame);
+	// };
+
+	addDisplayListener(cat) {
+		//change id to catPic - should work
+		$('#catPic').click(function() {
+			cat.clicks++;
+			$('#catCounts').html('This cat has been clicked '+cat.clicks+' times.');
+		});
+	};
+
+	addListListener() {
+		console.log('fired');
+	  $('#catLink'+this.index).click(function() {
+
+	  	$('#catPic').attr({	src: this.img,alt: this.name	});
+
+	  	$('.catName').html(this.name);
+
+	  	$('#catCounts').html('This cat has been clicked '+this.clicks+' times.');
+
+	  	for(let i=0; i<=catNum-1; i++) {
+	  		$('#catLink'+i).toggleClass('grid__cat-list--active',false);
+	  	}
+
+	  	$('#catLink'+this.index).addClass('grid__cat-list--active');
+
+
+
+	  });
+	};
+
+	setDisplay(cat) {
+		//move most of lstlistenre to here
+	};
 
 };  // class cat
 
 
 function createCats(num) {
 	allCats=[];
-    for(let i=0; i<=num-1; i++) {
-        let newCat=new Cat('img/cat'+(i+1)+'.jpg','cat #'+(i+1), i);
-        allCats.push(newCat);
-        //newCat.buildFrame();
-        newCat.addListener(newCat);
-    }
+	for(let i=0; i<=num-1; i++) {
+		let newCat=new Cat('img/cat'+(i+1)+'.jpg','cat #'+(i+1), i);
+		allCats.push(newCat);
+		//newCat.buildFrame();
+		//newCat.addListener(newCat);
+	}
+
 }
 
-function buildHTML() {
+function buildHTML(cat) {
 
 	//build cat-list container
-	let newHTML = document.createElement('div');
-	newHTML.classList.add('grid__cat-list');
-	$('.main').append(newHTML);
+	let newDiv = document.createElement('div');
+	newDiv.classList.add('grid__cat-list');
+	$('.main').append(newDiv);
 
 	//build cat list
-	newHTML='<ul>';
+
+	newDiv=document.createElement('div');
+
+	newDiv.classList.add('row');
+	newDiv.setAttribute('id','cat-ul');
+
+
+	$('.grid__cat-list').append(newDiv);
+
+	let newHTML='<ul>';
 	for(let i=0; i<=catNum-1; i++) {
 		newHTML+='<li id="catLink'+allCats[i].index+'">'+allCats[i].name+'</li>';
 	}
 	newHTML+='</ul>';
-	$('.grid__cat-list').append(newHTML);
+	$('#cat-ul').append(newHTML);
+
 
 	//add listener to cat list entries
-	for(i=0; i<=catNum-1; i++) {
-		cat.addDisplayListener(allCats[i]);
-	}
+	// for(let i=0; i<=(catNum-1); i++) {
+	// 	cat.addListListener(allCats[i]);
+
+	//[TODO] move to initialize function
+	allCats.forEach(function(cat) {
+		cat.addListListener();
+	});
+
+	$('#catLink0').addClass('grid__cat-list--active');
+
+	//build cat-display container
 
 
-    //build cat-display container
-
-        //div plus three rows - name, image, clicks
-        //child of main or sibling of cat-list?
+	  let newFrame = document.createElement('div');
+	  newFrame.classList.add('grid__cat-display');
 
 
-      let newFrame = document.createElement('div');
-      newFrame.classList.add('catFrame');
-      newFrame.classList.add(frameWidth);
+
+	  let newName = document.createElement('div');
+	  newName.classList.add('catName');
+	  newName.classList.add('row');
+	  newName.textContent=cat.name;
+	  newFrame.appendChild(newName);
+
+	  let newImgDiv = document.createElement('div');
+	  newImgDiv.classList.add('catImg');
+	  newImgDiv.classList.add('row');
 
 
-      let newName = document.createElement('span');
-      newName.classList.add('catName');
-      newName.classList.add('row');
-      newName.textContent=this.name;
-      newFrame.appendChild(newName);
+	  let newImg = document.createElement('img');
+	  newImg.setAttribute('src',cat.img);
+	  newImg.setAttribute('alt',cat.name);
+	  newImg.setAttribute('id','catPic');
 
-      let newImgDiv = document.createElement('div');
-      newImgDiv.classList.add('catImg');
-      newImgDiv.classList.add('row');
+	  newImgDiv.appendChild(newImg);
+		newFrame.appendChild(newImgDiv);
 
 
-      let newImg = document.createElement('img');
-      newImg.setAttribute('src',this.img);
-      newImg.setAttribute('alt',this.name);
-      newImg.setAttribute('id','cat'+this.index);
+		let newClicks = document.createElement('div');
+		newClicks.classList.add('catClicks');
+		newClicks.classList.add('row');
+		let newClicksP = document.createElement('p');
+		newClicksP.setAttribute('id','catCounts');
+		newClicks.appendChild(newClicksP);
+		newFrame.appendChild(newClicks);
 
-      newImgDiv.appendChild(newImg);
-        newFrame.appendChild(newImgDiv);
-
-
-        let newClicks = document.createElement('div');
-        newClicks.classList.add('catClicks');
-        newClicks.classList.add('row');
-        let newClicksP = document.createElement('p');
-        newClicksP.setAttribute('id','catCounts'+this.index);
-        newClicks.appendChild(newClicksP);
-        newFrame.appendChild(newClicks);
-
-        $('.main').append(newFrame);
-    };
+		$('.main').append(newFrame);
+		$('#catCounts').html('This cat has been clicked '+cat.clicks+' times.');
+	};
 
 document.body.onload=createCats(catNum);
+//when done - call buildHTML with default cat 0
+setTimeout(buildHTML(allCats[0]), 100);
