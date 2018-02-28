@@ -4,6 +4,7 @@ var gulp            = require('gulp');
 var sass            =require('gulp-sass');
 var autoprefixer    = require('gulp-autoprefixer');
 var eslint          = require('gulp-eslint');
+//don't use jasmine until handlebars.js > 2.0.0 installed
 //var jasmine		= require('gulp-jasmine-phantom');
 var concat			= require('gulp-concat');
 //var uglify			= require('gulp-uglify');  //currently a security issue
