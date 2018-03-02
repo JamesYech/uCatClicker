@@ -58,7 +58,7 @@ $(function() {
 
 	    render: function() {
             // Cache for use in forEach() callback (performance)
-            let $nameList = $('.grid__cat-list'),
+            let $nameList = $('.menu'),
             	$catTemplate = $('script[data-template="cat-list"]').html();
 
             octo.getCats().forEach(function(cat) {
@@ -72,12 +72,11 @@ $(function() {
 
 	    addListClick: function(cat) {
 	    	//cached for performance
-	    	let $selectedCat=$('#'+cat.ndx),
-	    		$unselectedCat=$('#'+lastID);
+	    	let $selectedCat=$('#'+cat.ndx);
 
 	    	$selectedCat.on('click', function(e){
-	    		$unselectedCat.toggleClass('grid__cat-list--active',false);
-	    		$selectedCat.addClass('grid__cat-list--active');
+	    		$('#'+lastID).toggleClass('menu__content--active',false);
+	    		$selectedCat.addClass('menu__content--active');
 	    		octo.updateLastID(cat.ndx);
 	    		view2.render(cat);
 	    	});
@@ -89,13 +88,13 @@ $(function() {
 
 			let cat=allCats[0];  //so src attrib can be set
 
-			$('.catName').textContent=cat.name;
+			$('.display__name').textContent=cat.name;
 
 			let newImg = document.createElement('img');
 			newImg.setAttribute('src',cat.img);
 			newImg.setAttribute('alt',cat.name);
 			newImg.setAttribute('id','catPic');
-			$('.catImg').append(newImg);
+			$('.display__img').append(newImg);
 
 			//default activation of first cat in list
 			$('#'+cat.ndx).trigger('click');
@@ -104,8 +103,8 @@ $(function() {
 		render: function(cat) {
 			$('#catPic').off();
 			$('#catPic').attr({	src: cat.img, alt: cat.name	});
-			$('.catName').html(cat.name);
-			$('.catClicks').html('This cat has been clicked '+cat.clicks+' times.');
+			$('.display__name').html(cat.name);
+			$('.display__clicks').html('This cat has been clicked '+cat.clicks+' times.');
 
 			view2.addDisplayClick(cat);
 		},
@@ -113,7 +112,7 @@ $(function() {
 		addDisplayClick: function(cat) {
 				$('#catPic').click(function() {
 				let clicks=octo.clickHandler(cat);
-				$('.catClicks').html('This cat has been clicked '+clicks+' times.');
+				$('.display__clicks').html('This cat has been clicked '+clicks+' times.');
 			});
 		}
 	};

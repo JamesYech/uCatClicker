@@ -1,7 +1,7 @@
 /*eslint-env node*/
 
 var gulp            = require('gulp');
-var sass            =require('gulp-sass');
+var sass            = require('gulp-sass');
 var autoprefixer    = require('gulp-autoprefixer');
 var eslint          = require('gulp-eslint');
 //don't use jasmine until handlebars.js > 2.0.0 installed
@@ -21,16 +21,16 @@ var watch  			= require('gulp-watch');
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //also comment/uncomment sass/css watchers
 
-//gulp.task('serve', ['sass','js','html'], function() {
-gulp.task('serve', ['css','js','html'], function() {
+gulp.task('serve', ['sass','js','html'], function() {
+// gulp.task('serve', ['css','js','html'], function() {
 	browserSync.init({
 		server: './dist'
 	});
 
-	//gulp.watch('./sass/*.scss', ['sass']);
+	gulp.watch('./sass/*.scss', ['sass']);
 	gulp.watch('./js/**/*.js',['js']);
 	gulp.watch('./*.html',['html']);
-	gulp.watch('./css/**/*.css',['css']);
+	// gulp.watch('./css/**/*.css',['css']);
 	gulp.watch('./dist/*.html').on('change',browserSync.reload);
 
 	// consider this to have brosersync wait until copy is done to

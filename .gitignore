@@ -43,6 +43,7 @@ sass/**
 css/**
 img/**
 js/**
+index.html
 .eslintrc.js
 .eslintrc.json
 

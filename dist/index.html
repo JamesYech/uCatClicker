@@ -11,43 +11,30 @@
         <!-- <link rel="stylesheet" href="css/extra.css"> -->
     </head>
     <body>
-
-    <div class='container'>
-
-        <div class='header row'>
-            <h1>Cat Clicker v4 - Premium (MVO)</h1>
-        </div>  <!-- end header -->
-
-        <div class="main main__grid" id="cats-view">
-
-            <div class="grid__cat-list">
-
-            </div>  <!-- end cat-list -->
-            <div class="grid__cat-display">
-
-                <div class="catName row">
-                </div>
-
-                <div class="catImg row">
-                </div>
-
-                <div class="catClicks row">
-                </div>
-
-            </div>  <!-- end cat-display -->
-        </div>  <!-- end main div -->
-    </div>  <!-- end container div -->
+        <div class='container'>
+            <div class='header row'>
+                <h1>Cat Clicker v4 - Premium (MVO)</h1>
+            </div>
+            <div class="main__grid" >
+                <div class="menu"><!-- js content --></div>
+                <div class="display">
+                    <div class="display__name row">
+                    </div>
+                    <div class="display__img row">
+                    </div>
+                    <div class="display__clicks row">
+                    </div>
+                </div>  <!-- end cat-display -->
+            </div>  <!-- end main div -->
+        </div>  <!-- end container div -->
 
         <script type="text/template" data-template="cat-list" id="catTemplate">
-        <li class="" id="{{id}}">
-            <a href="#" class="select-cat">{{name}}</a>
-        </li>
-    </script>
+            <li class="" id="{{id}}">
+                <a href="#" class="menu__content">{{name}}</a>
+            </li>
+        </script>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="js/app.js"></script>
-
-
-
     </body>
 </html>
