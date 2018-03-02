@@ -1,114 +1,124 @@
-//revision 3
-'use strict';
-var allCats=[];
-var catNum=7;  //up to ten
-//this var is set to $('#catCounts').  This is what solved clicks being
-//counted more than once when fired in quick succession.  Not sure why
-//but it worked.
-var catCountsEl;
+//revision 4 (mvo version)
+
+$(function() {
+
+	//global variables go here
+	var allCats=[];
+	var catNum=7;  //max ten
+	var lastID;  //used when highlighting click cat name
 
 
-class Cat {
-	constructor(img, name, index) {
-		this.img=img;
-		this.name=name;
-		this.index=index;
-		this.clicks=0;
+
+	//octopus - find another term  ;)
+	var octo =  {
+		init: function() {
+			cats.init();
+			view1.init();
+			view2.init();
+		},
+
+		getCats: function() {
+			return(allCats);
+		},
+
+		clickHandler: function(cat) {
+			cats.updateClicks(cat);
+			return( cat.clicks);
+		},
+
+		updateLastID: function(ndx) {
+	    	lastID=ndx;
+	    }
 	};
 
-	addListListener(cat) {
-		$('#catLink'+cat.index).click(function() {
-			$('#catPic').attr({	src: cat.img,alt: cat.name	});
-			$('.catName').html(cat.name);
-			$('#catCounts').html('This cat has been clicked '+cat.clicks+' times.');
-
+	//model
+	var cats =  {
+		init: function() {
+			allCats=[];
 			for(let i=0; i<=catNum-1; i++) {
-				$('#catLink'+i).toggleClass('grid__cat-list--active',false);
+				allCats.push({
+					img: 	'img/cat'+(i+1)+'.jpg',
+					name: 	'cat #'+(i+1),
+					ndx:    i,
+					clicks: 0
+				});
 			}
-			$('#catLink'+cat.index).addClass('grid__cat-list--active');
+		},
 
-			$('#catPic').off();
-			cat.addDisplayListener(cat);
-		});
-	};
-
-	addDisplayListener(cat) {
-		$('#catPic').click(function() {
+		updateClicks: function(cat) {
 			cat.clicks+=1;
-			catCountsEl.html('This cat has been clicked '+cat.clicks+' times.');
-		});
-	};
-
-};  // end class cat
-
-
-function createCats(num) {
-	allCats=[];
-	for(let i=0; i<=num-1; i++) {
-		let newCat=new Cat('img/cat'+(i+1)+'.jpg','cat #'+(i+1), i);
-		allCats.push(newCat);
-	}
-}
-
-//This builds out the framework for the cat list and the cat image
-//also adds the listeners to the cat list.
-function buildHTML(cat) {
-	//build cat-list
-	let newDiv=createEl('div',['grid__cat-list']);
-	$('.main').append(newDiv);
-
-	newDiv=createEl('div',['row']);
-	newDiv.setAttribute('id','cat-ul');
-	$('.grid__cat-list').append(newDiv);
-
-	let newHTML='<ul>';
-	for(let i=0; i<=catNum-1; i++) {
-		newHTML+='<li id="catLink'+allCats[i].index+'">'+allCats[i].name+'</li>';
-	}
-	newHTML+='</ul>';
-	$('#cat-ul').append(newHTML);
-
-	//add listener to cat list entries
-	for(let i=0; i<=(catNum-1); i++) {
-		cat.addListListener(allCats[i]);
-	};
-
-	//build cat-display container
-	let newFrame=createEl('div',['grid__cat-display']);
-	let newName=createEl('div',['catName','row']);
-	newName.textContent=cat.name;
-	newFrame.appendChild(newName);
-
-	let newImgDiv=createEl('div',['catImg','row']);
-
-	let newImg = document.createElement('img');
-	newImg.setAttribute('src',cat.img);
-	newImg.setAttribute('alt',cat.name);
-	newImg.setAttribute('id','catPic');
-
-	newImgDiv.appendChild(newImg);
-	newFrame.appendChild(newImgDiv);
-
-	let newClicks=createEl('div',['catClicks','row']);
-	let newClicksP = document.createElement('p');
-	newClicksP.setAttribute('id','catCounts');
-	newClicks.appendChild(newClicksP);
-	newFrame.appendChild(newClicks);
-
-	$('.main').append(newFrame);
-	catCountsEl=$('#catCounts');    //needed to do this to eliminate multiple clicks
-	$('#catLink0').trigger('click');
-
-	//creates elements and adds classes - cleans up the build code above
-	function createEl(elType, classes=[]) {
-		let el=document.createElement(elType);
-		for(let i=0; i<classes.length; i++) {
-			el.classList.add(classes[i]);
 		}
-		return(el);
-	}
-};
+	};
 
-document.body.onload=createCats(catNum);
-//when done - call buildHTML with default cat 0
-setTimeout(buildHTML(allCats[0]), 100);
+	//View 1 - list of cat names
+	var view1 =  {
+		init: function() {
+	        this.render();
+	    },
+
+	    render: function() {
+            // Cache for use in forEach() callback (performance)
+            let $nameList = $('.grid__cat-list'),
+            	$catTemplate = $('script[data-template="cat-list"]').html();
+
+            octo.getCats().forEach(function(cat) {
+                let thisTemplate = $catTemplate.replace(/{{id}}/g, cat.ndx)
+                							  .replace(/{{name}}/g, cat.name);
+                $nameList.append(thisTemplate);
+                //attach listener to each entry
+                view1.addListClick(cat);
+            });
+        },
+
+	    addListClick: function(cat) {
+	    	//cached for performance
+	    	let $selectedCat=$('#'+cat.ndx),
+	    		$unselectedCat=$('#'+lastID);
+
+	    	$selectedCat.on('click', function(e){
+	    		$unselectedCat.toggleClass('grid__cat-list--active',false);
+	    		$selectedCat.addClass('grid__cat-list--active');
+	    		octo.updateLastID(cat.ndx);
+	    		view2.render(cat);
+	    	});
+	    }
+	};
+
+	var view2 = {
+		init: function() {
+
+			let cat=allCats[0];  //so src attrib can be set
+
+			$('.catName').textContent=cat.name;
+
+			let newImg = document.createElement('img');
+			newImg.setAttribute('src',cat.img);
+			newImg.setAttribute('alt',cat.name);
+			newImg.setAttribute('id','catPic');
+			$('.catImg').append(newImg);
+
+			//default activation of first cat in list
+			$('#'+cat.ndx).trigger('click');
+		},
+
+		render: function(cat) {
+			$('#catPic').off();
+			$('#catPic').attr({	src: cat.img, alt: cat.name	});
+			$('.catName').html(cat.name);
+			$('.catClicks').html('This cat has been clicked '+cat.clicks+' times.');
+
+			view2.addDisplayClick(cat);
+		},
+
+		addDisplayClick: function(cat) {
+				$('#catPic').click(function() {
+				let clicks=octo.clickHandler(cat);
+				$('.catClicks').html('This cat has been clicked '+clicks+' times.');
+			});
+		}
+	};
+
+	//Initialize page
+	octo.init();
+
+});

@@ -14,22 +14,40 @@
 
     <div class='container'>
 
-        <div class='row header'>
-            <h1>Cat Clicker v3</h1>
-        </div>
+        <div class='header row'>
+            <h1>Cat Clicker v4 - Premium (MVO)</h1>
+        </div>  <!-- end header -->
 
-        <div class="main main__grid">
+        <div class="main main__grid" id="cats-view">
 
+            <div class="grid__cat-list">
 
-        </div>  <!-- main div -->
+            </div>  <!-- end cat-list -->
+            <div class="grid__cat-display">
 
-        <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+                <div class="catName row">
+                </div>
+
+                <div class="catImg row">
+                </div>
+
+                <div class="catClicks row">
+                </div>
+
+            </div>  <!-- end cat-display -->
+        </div>  <!-- end main div -->
+    </div>  <!-- end container div -->
+
+        <script type="text/template" data-template="cat-list" id="catTemplate">
+        <li class="" id="{{id}}">
+            <a href="#" class="select-cat">{{name}}</a>
+        </li>
+    </script>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="js/app.js"></script>
 
-    </div>  <!-- container div -->
+
 
     </body>
 </html>

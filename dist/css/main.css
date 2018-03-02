@@ -8,7 +8,7 @@ body {
 
 .main {
 	/*max-width: 700px;*/
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 }
 
 .catFrame {
@@ -20,20 +20,18 @@ body {
 }
 
 .catImg {
-	    /*background-size: cover;
-        width: 100%;
-        height: 0;
-        padding-top: 100%;
-        position: relative;*/
+
 
 }
 
 .container {
 	width: 750px;
+    margin: 0 auto;
 
 }
 
 .header {
+    border-bottom: 1px solid black;
 
 }
 
@@ -101,19 +99,29 @@ img {
             -ms-flex-align: start;
                 align-items: start;
         height: 100%;
+        margin: 2.25em 0 0 0 ;
 
     }
+
+
+
 .grid__cat-list ul {
     padding: 0;
 }
-.grid__cat-list ul li {
+.grid__cat-list li {
     list-style: none;
-    padding: 0.25em 1em;
-    margin: 0 1em;
+    padding: 0.25em 0.5em;
+    margin: 0 1em 0 0;
 
 }
 
-.grid__cat-list ul li:hover {
+.grid__cat-list a {
+    text-decoration: none;
+}
+
+
+
+.grid__cat-list li:hover {
     cursor: pointer;
     background-color: #D8D8D8;
 }
