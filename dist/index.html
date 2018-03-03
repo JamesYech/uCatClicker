@@ -17,7 +17,8 @@
             </div>
             <div class="main__grid" >
                 <div class="menu">
-                    <ul></ul><!-- js content -->
+                    <div>Cat List</div>
+                    <ul><!-- js content --></ul>
                 </div>
                 <div class="display">
                     <div class="display__name row">
@@ -28,7 +29,32 @@
                     <div class="display__clicks row">
                     </div>
                 </div>  <!-- end cat-display -->
-            </div>  <!-- end main div -->
+                <div class="admin">
+                    <div>Cat Admin</div>
+                    <div class="open row">
+                            <div class="btn" id="btnAdmin" >Open</div>
+                    </div>
+
+                    <div class="action hidden">
+                        <div class="data">
+                            <div class="input-wrapper">
+                                <label for="cname">Cats' Name</label>
+                                <input type="text" id="cname" name="catsName">
+
+                                <label for="cimg">Cats' Image</label>
+                                <input type="text" id="cimg" name="catsImage">
+
+                                <label for="ccounts">Click Count</label>
+                                <input type="text" id="ccounts" name="catsClicks">
+                            </div>
+                        </div>
+                        <div class="action-btns">
+                            <div class="btn" id="btnCancel">Cancel</div>
+                            <div class="btn" id="btnSave">Save</div>
+                        </div>
+                    </div> <!-- end action wrapper -->
+                </div>  <!-- end admin div -->
+            </div>  <!-- end main__grid -->
         </div>  <!-- end container div -->
 
         <script type="text/template" data-template="cat-list" id="catTemplate">
