@@ -5,6 +5,8 @@ $(function() {
 	//global variables go here
 	var allCats=[];
 	var catNum=7;  //max ten
+
+	//this really should be inside the model
 	var lastID;  //used when highlighting click cat name
 
 
@@ -58,7 +60,7 @@ $(function() {
 
 	    render: function() {
             // Cache for use in forEach() callback (performance)
-            let $nameList = $('.menu'),
+            let $nameList = $('.menu>ul'),
             	$catTemplate = $('script[data-template="cat-list"]').html();
 
             octo.getCats().forEach(function(cat) {
@@ -85,32 +87,24 @@ $(function() {
 
 	var view2 = {
 		init: function() {
-
-			let cat=allCats[0];  //so src attrib can be set
-
-			$('.display__name').textContent=cat.name;
-
-			let newImg = document.createElement('img');
-			newImg.setAttribute('src',cat.img);
-			newImg.setAttribute('alt',cat.name);
-			newImg.setAttribute('id','catPic');
-			$('.display__img').append(newImg);
-
+			//cache var for later use
+			this.catImgEl=$('#catPic');
+			this.catNameEl=$('.display__name');
+			this.catClicksEl=$('.display__clicks');
 			//default activation of first cat in list
-			$('#'+cat.ndx).trigger('click');
+			$('#0').trigger('click');
 		},
 
 		render: function(cat) {
-			$('#catPic').off();
-			$('#catPic').attr({	src: cat.img, alt: cat.name	});
-			$('.display__name').html(cat.name);
-			$('.display__clicks').html('This cat has been clicked '+cat.clicks+' times.');
-
+			this.catImgEl.off();
+			this.catImgEl.attr({	src: cat.img, alt: cat.name	});
+			this.catNameEl.html(cat.name);
+			this.catClicksEl.html('This cat has been clicked '+cat.clicks+' times.');
 			view2.addDisplayClick(cat);
 		},
 
 		addDisplayClick: function(cat) {
-				$('#catPic').click(function() {
+				this.catImgEl.click(function() {
 				let clicks=octo.clickHandler(cat);
 				$('.display__clicks').html('This cat has been clicked '+clicks+' times.');
 			});
@@ -119,5 +113,4 @@ $(function() {
 
 	//Initialize page
 	octo.init();
-
 });
